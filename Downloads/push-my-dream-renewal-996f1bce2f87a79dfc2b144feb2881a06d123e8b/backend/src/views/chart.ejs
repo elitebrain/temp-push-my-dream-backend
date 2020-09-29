@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/reset.css" />
+    <link rel="stylesheet" href="/static/css/chart.css" />
+    <title>MyChart</title>
+  </head>
+  <body>
+    <div class="gradient__section">
+      <div class="gradient__header">
+        <h3>PUSH</h3>
+        <span>Season</span>
+      </div>
+      <h5>일자별 받은 푸쉬와 누적 푸쉬를 표시합니다.</h5>
+      <canvas id="myChart"></canvas>
+    </div>
+    <script src="/static/js/chart@2.8.0.js"></script>
+    <script>
+      function getAbbreviateCount(count) {
+        let magnitude = null;
+        switch (count.toString().length) {
+          case 4:
+          case 5:
+          case 6:
+            magnitude = "K";
+            break;
+          case 7:
+          case 8:
+          case 9:
+            magnitude = "M";
+            break;
+          case 10:
+          case 11:
+          case 12:
+            magnitude = "B";
+            break;
+          case 13:
+          case 14:
+          case 15:
+            magnitude = "T";
+            break;
+          default:
+            break;
+        }
+
+        return magnitude
+          ? count
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+              .slice(0, 3 + (count.toString().length % 3 ? 1 : 0)) + magnitude
+          : count.toString();
+      }
+    </script>
+
+    <script>
+      const ctx = document.getElementById("myChart");
+
+      let scoreData = <%- JSON.stringify(scoreData) %>;
+      let pushData = <%- JSON.stringify(pushData) %>;
+
+      let scoreChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          datasets: [
+            {
+              label: "Line Dataset",
+              yAxisID: "Line",
+              data: pushData.map((push) => push.lineValue),
+              borderColor: "#AE46E7",
+              borderWidth: 2,
+              backgroundColor: "transparent",
+              // Changes this dataset to become a line
+              type: "line",
+            },
+            {
+              label: "Bar Dataset",
+              yAxisID: "Bar",
+              data: pushData.map((push) => push.value),
+              backgroundColor: "#00F1B4",
+            },
+          ],
+          labels: pushData.map((push) =>push.date),
+        },
+        options: {
+          // 상단의 소개글 안보이게하기
+          legend: {
+            display: false,
+          },
+          scales: {
+            xAxes: [
+              { ticks: {
+                maxTicksLimit:  5
+                },
+                // 그리드 라인 안보이게하기
+                gridLines: {
+                  drawOnChartArea: false,
+                  color: "#696C8C"
+                },
+
+                barPercentage: 0.5,
+              },
+            ],
+            yAxes: [
+              {
+                id: "Line",
+                type: "linear",
+                position: "left",
+                ticks: {
+                  callback: function (value, index, values) {
+                    return getAbbreviateCount(value);
+                  },
+                },
+                gridLines: {
+                  color: "#696C8C"
+                },
+              },
+
+              {
+                id: "Bar",
+                type: "linear",
+                position: "right",
+                // 그리드 라인 안보이게하기
+                gridLines: {
+                  display: false,
+                  color: "#696C8C"
+                },
+                ticks: {
+                  callback: function (value, index, values) {
+                    return getAbbreviateCount(value);
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "push-my-dream",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev:client": "yarn workspace frontend dev",
+    "dev:mobile": "yarn workspace mobile dev",
+    "dev:server": "yarn workspace backend dev",
+    "test:server": "yarn workspace backend test",
+    "start:server": "yarn workspace backend start",
+    "prestart:client": "yarn workspace frontend analyze",
+    "start:client": "yarn workspace frontend start",
+    "prestart:mobile": "yarn workspace mobile analyze",
+    "start:mobile": "yarn workspace mobile start",
+    "start": "yarn run start:server && yarn run start:mobile",
+    "pretest:client": "yarn workspace frontend analyze:test",
+    "test:client": "yarn workspace frontend start:test",
+    "pretest:mobile": "yarn workspace mobile analyze:test",
+    "test:mobile": "yarn workspace mobile start:test",
+    "test": "yarn run test:server && yarn run test:mobile"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "mobile"
+  ]
+}

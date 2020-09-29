@@ -1,0 +1,38 @@
+html {
+  background-color: black;
+}
+
+.gradient__section {
+  background: linear-gradient(rgb(47, 51, 84) -27.85%, rgb(4, 2, 33) 68.61%);
+  padding: 10px 10px 0 10px;
+  border-radius: 5px;
+}
+
+.gradient__section .gradient__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.gradient__section .gradient__header h3 {
+  margin-top: 7px;
+  margin-left: 5px;
+  height: 25px;
+  line-height: 27px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.gradient__section .gradient__header span {
+  color: rgb(174, 70, 231);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.gradient__section h5 {
+  font-size: 10px;
+  color: rgb(105, 108, 140);
+  margin-bottom: 20px;
+}
